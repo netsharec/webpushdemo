@@ -5,11 +5,26 @@
   <title>Webpush Golang Example</title>
 </head>
 <body>
+<pre id="log"></pre>
   <script>
+    (function () {
+        var old = console.log;
+        var logger = document.getElementById('log');
+        console.log = function () {
+          for (var i = 0; i < arguments.length; i++) {
+            if (typeof arguments[i] == 'object') {
+                logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+            } else {
+                logger.innerHTML += arguments[i] + '<br />';
+            }
+          }
+        }
+    })();
+
     function subscribe() {
       navigator.serviceWorker.ready
         .then(function(registration) {
-          const vapidPublicKey = 'BKA02JVHG8qfdjl-ms7nOt6bofJBRBngedF-nM99xG41_UT5842JHYCfyfEK8Ls-ETX0mYtd8jiXABerVinMXbA';
+          const vapidPublicKey = 'BPCzu2rs5bBt2DraLYriFAXU6xw_PoOlAT7B7ZkWhqVp4rs9svmzph-KcM0oDc1vBJ3jIf2fVieZzYxk73NR8NQ';
 
           return registration.pushManager.subscribe({
             userVisibleOnly: true,
@@ -53,6 +68,7 @@
           }
         });
     }
+    console.log("test");
   </script>
 </body>
 </html>
